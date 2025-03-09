@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/parkingfinder/static/js/main.4e59a7dc.js",
+    "main.js": "/parkingfinder/static/js/main.aab39812.js",
     "index.html": "/parkingfinder/index.html",
-    "main.4e59a7dc.js.map": "/parkingfinder/static/js/main.4e59a7dc.js.map"
+    "main.aab39812.js.map": "/parkingfinder/static/js/main.aab39812.js.map"
   },
   "entrypoints": [
-    "static/js/main.4e59a7dc.js"
+    "static/js/main.aab39812.js"
   ]
 }
