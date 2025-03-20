@@ -1,10 +1,13 @@
 {
   "files": {
-    "main.js": "/parkingfinder/static/js/main.aab39812.js",
+    "main.css": "/parkingfinder/static/css/main.1939fd3f.css",
+    "main.js": "/parkingfinder/static/js/main.1eb28537.js",
     "index.html": "/parkingfinder/index.html",
-    "main.aab39812.js.map": "/parkingfinder/static/js/main.aab39812.js.map"
+    "main.1939fd3f.css.map": "/parkingfinder/static/css/main.1939fd3f.css.map",
+    "main.1eb28537.js.map": "/parkingfinder/static/js/main.1eb28537.js.map"
   },
   "entrypoints": [
-    "static/js/main.aab39812.js"
+    "static/css/main.1939fd3f.css",
+    "static/js/main.1eb28537.js"
   ]
 }
