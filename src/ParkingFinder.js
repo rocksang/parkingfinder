@@ -44,75 +44,77 @@ function ParkingFinder() {
         <p style={styles.subText}>Find The Perfect Parking Spot Near You</p>
       </header>
 
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.formRow}>
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>City</label>
-            <input
-              type="text"
-              name="city"
-              value={formData.city}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="e.g., Sydney"
-            />
+      <div className="form-section">
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <div style={styles.formRow}>
+            <div style={styles.inputGroup}>
+              <label style={styles.label}>City</label>
+              <input
+                type="text"
+                name="city"
+                value={formData.city}
+                onChange={handleInputChange}
+                style={styles.input}
+                placeholder="e.g., Sydney"
+              />
+            </div>
+            <div style={styles.inputGroup}>
+              <label style={styles.label}>Park Type</label>
+              <select name="parkingType" value={formData.parkingType} onChange={handleInputChange} style={styles.input}>
+                <option value="any">Any</option>
+                <option value="free">Free</option>
+                <option value="paid">Paid</option>
+              </select>
+            </div>
           </div>
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>Park Type</label>
-            <select name="parkingType" value={formData.parkingType} onChange={handleInputChange} style={styles.input}>
-              <option value="any">Any</option>
-              <option value="free">Free</option>
-              <option value="paid">Paid</option>
-            </select>
+          <div style={styles.formRow}>
+            <div style={styles.inputGroup}>
+              <label style={styles.label}>Location</label>
+              <input
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleInputChange}
+                style={styles.input}
+                placeholder="e.g., 474 Darling St"
+              />
+            </div>
+            <div style={styles.inputGroup}>
+              <label style={styles.label}>Park Time</label>
+              <input
+                type="time"
+                name="parkingTime"
+                value={formData.parkingTime}
+                onChange={handleInputChange}
+                style={styles.input}
+              />
+            </div>
           </div>
-        </div>
-        <div style={styles.formRow}>
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>Location</label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="e.g., 474 Darling St"
-            />
+          <div style={styles.formRow}>
+            <div style={styles.inputGroup}>
+              <label style={styles.label}>Park Length (minutes)</label>
+              <input
+                type="number"
+                name="parkingLength"
+                value={formData.parkingLength}
+                onChange={handleInputChange}
+                style={styles.input}
+                placeholder="e.g., 120"
+              />
+            </div>
+            <div style={styles.inputGroup}></div>
           </div>
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>Park Time</label>
-            <input
-              type="time"
-              name="parkingTime"
-              value={formData.parkingTime}
-              onChange={handleInputChange}
-              style={styles.input}
-            />
-          </div>
-        </div>
-        <div style={styles.formRow}>
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>Park Length (minutes)</label>
-            <input
-              type="number"
-              name="parkingLength"
-              value={formData.parkingLength}
-              onChange={handleInputChange}
-              style={styles.input}
-              placeholder="e.g., 120"
-            />
-          </div>
-          <div style={styles.inputGroup}></div> {/* Empty for alignment */}
-        </div>
-        <button
-          type="submit"
-          disabled={loading}
-          style={loading ? styles.buttonDisabled : styles.button}
-          onMouseOver={(e) => !loading && (e.target.style.background = 'linear-gradient(to bottom, #f5f5dc, #ebebcb)')}
-          onMouseOut={(e) => !loading && (e.target.style.background = '#f5f5dc')}
-        >
-          {loading ? 'Searching...' : 'Find Parking'}
-        </button>
-      </form>
+          <button
+            type="submit"
+            disabled={loading}
+            style={loading ? styles.buttonDisabled : styles.button}
+            onMouseOver={(e) => !loading && (e.target.style.background = 'linear-gradient(to bottom, #f5f5dc, #ebebcb)')}
+            onMouseOut={(e) => !loading && (e.target.style.background = '#f5f5dc')}
+          >
+            {loading ? 'Searching...' : 'Find Parking'}
+          </button>
+        </form>
+      </div>
 
       {error && <p style={styles.error}>{error}</p>}
       {spots.length > 0 && !loading && (
@@ -141,8 +143,6 @@ const styles = {
     maxWidth: '800px',
     margin: '0 auto',
     padding: '20px',
-    background: 'radial-gradient(#F6EED7, #D5BB94)',
-    opacity: 0.8,
     minHeight: '100vh',
     fontFamily: "'Playfair Display', serif"
   },
@@ -167,17 +167,18 @@ const styles = {
   },
   form: {
     backgroundColor: 'transparent',
-    padding: '20px',
     borderRadius: '5px',
     marginBottom: '20px'
   },
   formRow: {
     display: 'flex',
-    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: '10px',
     marginBottom: '10px'
   },
   inputGroup: {
-    width: '48%'
+    width: '455px'
   },
   label: {
     display: 'block',
@@ -223,14 +224,17 @@ const styles = {
     fontSize: '16px'
   },
   results: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#5F4226', // New background for results section
     padding: '20px',
     borderRadius: '5px'
   },
   resultsHeader: {
-    color: '#964b00',
+    backgroundColor: '#F1E1C9', // Header background for "YAY! We Find..."
+    color: '#390D0D', // Font color for header
     fontSize: '24px',
     margin: '0 0 15px',
+    padding: '10px',
+    borderRadius: '5px',
     textAlign: 'center'
   },
   spotCard: {
