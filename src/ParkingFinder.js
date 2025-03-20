@@ -5,7 +5,7 @@ function ParkingFinder() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    city: 'Sydney',
+    city: '',
     location: '',
     parkingType: 'any',
     parkingLength: '',
@@ -21,243 +21,251 @@ function ParkingFinder() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    fetch('https://parking-pro.onrender.com/parking', { 
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-        return res.json();
-      })
+    fetch('https://parking-pro.onrender.com/parking', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+      .then(res => res.ok ? res.json() : Promise.reject(`HTTP error: ${res.status}`))
       .then(data => {
-        console.log('Fetched spots:', data.spots);
         setSpots(data.spots || []);
         setLoading(false);
       })
       .catch(err => {
-        console.error('Fetch error:', err);
-        setError(err.message);
+        setError('Could not fetch parking spots.');
         setLoading(false);
       });
   };
 
   return (
-    <div style={{
-      maxWidth: '800px',
-      margin: '0 auto',
-      padding: '20px',
-      fontFamily: 'Arial, sans-serif',
-      backgroundColor: '#f4f7fa',
-      minHeight: '100vh'
-    }}>
-      {/* Header */}
-      <header style={{
-        textAlign: 'center',
-        padding: '20px 0',
-        backgroundColor: '#ffffff',
-        borderRadius: '10px',
-        boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-        marginBottom: '30px'
-      }}>
-        <h1 style={{ color: '#2c3e50', margin: 0, fontSize: '2.5em' }}>
-          Parking Pro
-        </h1>
-        <p style={{ color: '#7f8c8d', margin: '5px 0 0' }}>
-          Find the perfect parking spot near you
-        </p>
+    <div style={styles.container}>
+      <header style={styles.header}>
+        <h1 style={styles.headerText}>Parking Pro</h1>
+        <p style={styles.subText}>Find The Perfect Parking Spot Near You</p>
       </header>
 
-      {/* Form */}
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          backgroundColor: '#ffffff',
-          padding: '20px',
-          borderRadius: '10px',
-          boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-          marginBottom: '30px'
-        }}
-      >
-        <div style={{ display: 'grid', gap: '15px', gridTemplateColumns: '1fr 1fr' }}>
-          <div>
-            <label style={{ display: 'block', marginBottom: '5px', color: '#34495e' }}>
-              City
-            </label>
+      <form onSubmit={handleSubmit} style={styles.form}>
+        <div style={styles.formRow}>
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>City</label>
             <input
               type="text"
               name="city"
               value={formData.city}
               onChange={handleInputChange}
-              style={{
-                width: '100%',
-                padding: '10px',
-                border: '1px solid #dcdcdc',
-                borderRadius: '5px',
-                fontSize: '1em'
-              }}
+              style={styles.input}
               placeholder="e.g., Sydney"
             />
           </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: '5px', color: '#34495e' }}>
-              Location
-            </label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleInputChange}
-              style={{
-                width: '100%',
-                padding: '10px',
-                border: '1px solid #dcdcdc',
-                borderRadius: '5px',
-                fontSize: '1em'
-              }}
-              placeholder="e.g., 56 Glebe Point Rd"
-            />
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: '5px', color: '#34495e' }}>
-              Parking Type
-            </label>
-            <select
-              name="parkingType"
-              value={formData.parkingType}
-              onChange={handleInputChange}
-              style={{
-                width: '100%',
-                padding: '10px',
-                border: '1px solid #dcdcdc',
-                borderRadius: '5px',
-                fontSize: '1em',
-                backgroundColor: '#fff'
-              }}
-            >
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Park Type</label>
+            <select name="parkingType" value={formData.parkingType} onChange={handleInputChange} style={styles.input}>
               <option value="any">Any</option>
               <option value="free">Free</option>
               <option value="paid">Paid</option>
             </select>
           </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: '5px', color: '#34495e' }}>
-              Parking Length (minutes)
-            </label>
+        </div>
+        <div style={styles.formRow}>
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Location</label>
             <input
-              type="number"
-              name="parkingLength"
-              value={formData.parkingLength}
+              type="text"
+              name="location"
+              value={formData.location}
               onChange={handleInputChange}
-              style={{
-                width: '100%',
-                padding: '10px',
-                border: '1px solid #dcdcdc',
-                borderRadius: '5px',
-                fontSize: '1em'
-              }}
-              placeholder="e.g., 120"
+              style={styles.input}
+              placeholder="e.g., 474 Darling St"
             />
           </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: '5px', color: '#34495e' }}>
-              Parking Time
-            </label>
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Park Time</label>
             <input
               type="time"
               name="parkingTime"
               value={formData.parkingTime}
               onChange={handleInputChange}
-              style={{
-                width: '100%',
-                padding: '10px',
-                border: '1px solid #dcdcdc',
-                borderRadius: '5px',
-                fontSize: '1em'
-              }}
+              style={styles.input}
             />
           </div>
+        </div>
+        <div style={styles.formRow}>
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Park Length (minutes)</label>
+            <input
+              type="number"
+              name="parkingLength"
+              value={formData.parkingLength}
+              onChange={handleInputChange}
+              style={styles.input}
+              placeholder="e.g., 120"
+            />
+          </div>
+          <div style={styles.inputGroup}></div> {/* Empty for alignment */}
         </div>
         <button
           type="submit"
           disabled={loading}
-          style={{
-            width: '100%',
-            padding: '12px',
-            marginTop: '20px',
-            backgroundColor: loading ? '#95a5a6' : '#f5f5dc', // Beige when not loading
-            color: loading ? '#fff' : '#964b00', // Brown text, white when loading
-            border: 'none',
-            borderRadius: '5px',
-            fontSize: '1.1em',
-            cursor: loading ? 'not-allowed' : 'pointer',
-            transition: 'background-color 0.3s'
-          }}
-          onMouseOver={(e) => !loading && (e.target.style.backgroundColor = '#ebebcb')} // Slightly darker beige on hover
-          onMouseOut={(e) => !loading && (e.target.style.backgroundColor = '#f5f5dc')}
+          style={loading ? styles.buttonDisabled : styles.button}
+          onMouseOver={(e) => !loading && (e.target.style.background = 'linear-gradient(to bottom, #f5f5dc, #ebebcb)')}
+          onMouseOut={(e) => !loading && (e.target.style.background = '#f5f5dc')}
         >
           {loading ? 'Searching...' : 'Find Parking'}
         </button>
       </form>
 
-      {/* Results */}
-      {error && (
-        <p style={{ color: '#e74c3c', textAlign: 'center', fontSize: '1.1em' }}>
-          Error: {error}
-        </p>
-      )}
+      {error && <p style={styles.error}>{error}</p>}
       {spots.length > 0 && !loading && (
-        <div style={{
-          backgroundColor: '#ffffff',
-          padding: '20px',
-          borderRadius: '10px',
-          boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
-        }}>
-          <h2 style={{ color: '#2c3e50', marginTop: 0 }}>Parking Results</h2>
-          <ul style={{ listStyleType: 'none', padding: 0 }}>
-            {spots.map((spot, index) => (
-              <li
-                key={index}
-                style={{
-                  padding: '15px',
-                  marginBottom: '10px',
-                  backgroundColor: spot.free ? '#e8f5e9' : '#fff3e6',
-                  borderRadius: '8px',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center'
-                }}
-              >
-                <div>
-                  <strong style={{ color: '#2c3e50' }}>{spot.address}</strong>
-                  <p style={{ margin: '5px 0 0', color: '#7f8c8d' }}>
-                    {spot.free ? 'Free' : 'Paid'} - {spot.rules}
-                  </p>
-                </div>
-                {spot.distance_km && (
-                  <span style={{
-                    backgroundColor: '#3498db',
-                    color: '#fff',
-                    padding: '5px 10px',
-                    borderRadius: '15px',
-                    fontSize: '0.9em'
-                  }}>
-                    {spot.distance_km} km
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
+        <div style={styles.results}>
+          <h2 style={styles.resultsHeader}>YAY! We Find Your Parking Spots</h2>
+          {spots.map((spot) => (
+            <div key={spot.address} style={styles.spotCard}>
+              <div style={styles.spotInfo}>
+                <strong style={styles.spotName}>{spot.address}</strong>
+                <p style={styles.spotDetails}>{spot.free ? 'Free' : 'Paid'} - {spot.rules}</p>
+              </div>
+              <span style={styles.distanceBadge}>{spot.distance_km} km</span>
+            </div>
+          ))}
         </div>
       )}
       {!loading && !error && spots.length === 0 && (
-        <p style={{ textAlign: 'center', color: '#7f8c8d', fontSize: '1.1em' }}>
-          No parking spots found. Enter details and search!
-        </p>
+        <p style={styles.noResults}>Enter details to find parking!</p>
       )}
     </div>
   );
 }
+
+const styles = {
+  container: {
+    maxWidth: '800px',
+    margin: '0 auto',
+    padding: '20px',
+    background: 'radial-gradient(#F6EED7, #D5BB94)',
+    opacity: 0.8,
+    minHeight: '100vh',
+    fontFamily: "'Playfair Display', serif"
+  },
+  header: {
+    backgroundColor: '#402905',
+    padding: '20px',
+    borderRadius: '5px',
+    textAlign: 'center',
+    marginBottom: '20px'
+  },
+  headerText: {
+    color: '#FFFDFD',
+    fontSize: '36px',
+    margin: '0',
+    fontFamily: "'Playfair Display', serif"
+  },
+  subText: {
+    color: '#FFFDFD',
+    fontSize: '18px',
+    margin: '5px 0 0',
+    fontFamily: "'Playfair Display', serif"
+  },
+  form: {
+    backgroundColor: 'transparent',
+    padding: '20px',
+    borderRadius: '5px',
+    marginBottom: '20px'
+  },
+  formRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: '10px'
+  },
+  inputGroup: {
+    width: '48%'
+  },
+  label: {
+    display: 'block',
+    color: '#000000',
+    fontSize: '16px',
+    marginBottom: '5px'
+  },
+  input: {
+    width: '455px',
+    height: '71px',
+    padding: '10px',
+    backgroundColor: '#402905',
+    color: '#ffffff',
+    border: 'none',
+    borderRadius: '5px',
+    fontSize: '16px',
+    boxSizing: 'border-box'
+  },
+  button: {
+    width: '100%',
+    padding: '15px',
+    background: '#f5f5dc',
+    color: '#964b00',
+    border: 'none',
+    borderRadius: '5px',
+    fontSize: '18px',
+    cursor: 'pointer',
+    transition: 'background 0.3s'
+  },
+  buttonDisabled: {
+    width: '100%',
+    padding: '15px',
+    background: '#95a5a6',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    fontSize: '18px',
+    cursor: 'not-allowed'
+  },
+  error: {
+    color: '#e74c3c',
+    textAlign: 'center',
+    fontSize: '16px'
+  },
+  results: {
+    backgroundColor: 'transparent',
+    padding: '20px',
+    borderRadius: '5px'
+  },
+  resultsHeader: {
+    color: '#964b00',
+    fontSize: '24px',
+    margin: '0 0 15px',
+    textAlign: 'center'
+  },
+  spotCard: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '15px',
+    backgroundColor: '#ffffff',
+    borderRadius: '5px',
+    marginBottom: '10px'
+  },
+  spotInfo: {
+    flex: 1
+  },
+  spotName: {
+    color: '#2c3e50',
+    fontSize: '16px'
+  },
+  spotDetails: {
+    color: '#7f8c8d',
+    fontSize: '14px',
+    margin: '5px 0 0'
+  },
+  distanceBadge: {
+    backgroundColor: '#402905',
+    color: '#fff',
+    padding: '5px 12px',
+    borderRadius: '15px',
+    fontSize: '14px'
+  },
+  noResults: {
+    textAlign: 'center',
+    color: '#7f8c8d',
+    fontSize: '16px'
+  }
+};
 
 export default ParkingFinder;
