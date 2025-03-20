@@ -2,7 +2,7 @@ body {
   margin: 0;
   font-family: 'Playfair Display', serif;
   min-height: 100vh;
-  background-color: #f5f5dc; /* Fallback background, matches your beige button */
+  background-color: #e7e0d7; /* Fallback background, matches your beige button */
 }
 
 .form-section {
